@@ -72,3 +72,7 @@
     * Read_UnCommitted，允许事务读取其它并行的事务还没提交的数据，会发生Dirty,Nonrepeatable,Phantom Read等问题
     * Repeatable_Read，要求多次读取的数据必须相同，除非事务本身自己更新数据，可防止Dirty,Nonrepeatable等问题
     * Seralizable，完整的隔离级别，可防止一切，但会锁定相应的数据表格，效率会降低 
+    
+##### Others
+* NamespaceHandler
+* BeanDefinitionParser 解析XML中的element的内容 
