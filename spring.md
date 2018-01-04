@@ -19,7 +19,7 @@
 
 * DispatcherServlet,前置处理器，继承自FrameworkServlet，HttpServletBean，HttpServlet
 * org.springframework.web.context.ContextLoaderListener，上下文件监听器，继承自ContextLoader
-* HTTP 分发 -- HandlerMapping: SimpleUrlHanlerMapping,ControllerBean/ClassNameHandlerMapping,DefaultAnnotationHandlerMapping,BeanNameUrlHandlerMapping
+* HTTP 分发 -- HandlerMapping: SimpleUrlHanlerMapping,ControllerBean/ClassNameHandlerMapping,DefaultAnnotationHandlerMapping(已过时)被RequestMappingHandlerMapping替换,BeanNameUrlHandlerMapping
 * HandlerMapping -- HandlerExecutionChain(包含一个Handler对象，多个HandlerInterceptor对象)
 * HandlerAdapter -- 把处理器包装为适配器，从而支持多种类型处理器，即适配器设计模式的应用，从而容易支持多种类型的处理器 
 * HandlerInterceptor -- 
