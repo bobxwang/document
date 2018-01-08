@@ -23,7 +23,12 @@
 * HandlerMapping -- HandlerExecutionChain(包含一个Handler对象，多个HandlerInterceptor对象)
 * HandlerAdapter -- 把处理器包装为适配器，从而支持多种类型处理器，即适配器设计模式的应用，从而容易支持多种类型的处理器 
 * HandlerInterceptor -- 
-* Controller -- MultiActionController, BaseCommandController, SimpleFormController,
+* Controller -- MultiActionController, BaseCommandController, SimpleFormController
+* HandlerMethodArgumentResolver 
+* Converter#GenericConverter#HttpMessageConverter 
+* HandlerMethodReturnValueHandler
+* ViewResolver
+* MultipartResolver
 * Validator/PropertyEditor 
 * PropertyEditorSupport -- 自定义类型转换
 * Validator -- 校验 
