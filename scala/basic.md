@@ -27,9 +27,7 @@ object Person {
 Person.printUniqueSkill()
 ```
 
-#### 特质 Trait 
-
-> 类似接口,解决编程中的横切关注点,可以在类或实例中混入,最终会被编译成Java的接口及其相应实现类
+#### [特质](trait.md) 
 
 #### 高阶函数 High-order Function
 
