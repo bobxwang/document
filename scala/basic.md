@@ -33,7 +33,33 @@ Person.printUniqueSkill()
 
 > 至少满足下列两个条件: 接受函数作为输入; 输出一个函数 
 
+#### PartialFunction
+
+> 是一个二元函数,只在部分输入上有定义,并允许使用者去检查一个给定的输入上是否有定义 
+
+```
+val pf: PartialFunction[(String, Int), String] = {
+  case (word, freq) if freq > 3 && freq < 25 => word
+} // 加入守卫语句,不在区间的元素就没有定义
+```
+
+另一种写法
+
+```
+val pf = new PartialFunction[(String,Int),String] {
+  def apply(input:(String,Int)) = input match {
+    case (iw,ifreq) if ifreq > 3 && ifreq < 25 => iw 
+  }
+  def isDefinedAt(input:(String,Int)) = input match {
+    case (iw,ifreq) if ifreq > 3 && ifreq < 25 => true
+    case _ => false
+  }
+}
+```
+
 #### 模式匹配
+
+> 原理是 [提取器](extractor-object.md) , 它可以解绑一个给定的数据结构 
 
 ```
 val pattern = """^(S|s)cala-(\d+\.\d+\.\d+)""".r
