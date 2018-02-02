@@ -79,5 +79,8 @@
     * Seralizable，完整的隔离级别，可防止一切，但会锁定相应的数据表格，效率会降低 
     
 ##### Others
+* ClassPathScanningCandidateComponentProvider
+* PropertySourceFactory
 * NamespaceHandler
 * BeanDefinitionParser 解析XML中的element的内容 
+* Spring 中定时任务 fixedRate 任务两次执行时间间隔是任务的开始点，而 fixedDelay 的间隔是前次任务的结束与下次任务的开始
