@@ -5,7 +5,13 @@
 * 宽依赖 (依赖多个分区)
 * 窄依赖
 
-##### DAG(有向无环图)
+##### 专业术语
+
+* DataFrame
+
+  > 泛型的RDD,有对列的描述即Schema 
+
+##### DAG(有向无环图 - Directed Acycle graph)
 
 * Stage(阶段)
 * Partition(分区)
@@ -20,10 +26,17 @@
 
 ##### 运行部署模式 
 
-* standalone
+* local 多用于测试 
+
+
+* standalone spark自带的资源调度器
 * yarn
 * meson
 
 ##### RDD在Spark中运行步骤
 
 ##### ![运行流程](https://github.com/bobxwang/document/blob/master/spark/rdd-dag-task-worker.png)
+
+* DAGScheduler切割Job, 划分Stage, 通过sumbitStage来提交一个stage对应原tasks 
+* TaskScheduler(Driver)
+
