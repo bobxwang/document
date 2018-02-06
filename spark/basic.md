@@ -26,4 +26,4 @@
 
 ##### RDD在Spark中运行步骤
 
-##### ![](./rdd-dag-task-worker.png =100x100)
+##### ![运行流程](https://github.com/bobxwang/document/blob/master/spark/rdd-dag-task-worker.png)
