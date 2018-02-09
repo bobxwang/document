@@ -16,6 +16,8 @@
 
 ##### 专业术语
 
+![RDD DS DF](rdd-df-ds.jpg)
+
 * Dataset
 
   > 1.6后引入
@@ -56,7 +58,7 @@
 
 ##### RDD在Spark中运行步骤
 
-##### ![运行流程](https://github.com/bobxwang/document/blob/master/spark/rdd-dag-task-worker.png)
+##### ![运行流程](rdd-dag-task-worker.png)
 
 * DAGScheduler切割Job, 划分Stage, 通过sumbitStage来提交一个stage对应原tasks 
 * TaskScheduler(Driver)
