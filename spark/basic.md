@@ -21,11 +21,15 @@
 * Dataset
 
   > 1.6后引入
+  >
+  > strongly-typed and untyped API, consider DataFrame as an *alias* for a collection of generic objects *Dataset[Row]*, where a *Row* is a generic **untyped** JVM object. Dataset, by contrast, is a collection of **strongly-typed** JVM objects, dictated by a case class you define in Scala or a class in Java
 
 
 * DataFrame
 
   > 泛型的Dataset,有对列的描述即Schema,即 Dataset[Row], 每一行类型都是Row 
+  >
+  > Unlike an RDD, data is organized into named columns, like a table in a relational db 
 
 * RDD(Resillient Distributed Dataset)
 
