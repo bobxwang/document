@@ -6,6 +6,14 @@
 * 任何第三方依赖之间相互隔离
 * 通过近实时的监控和报警及时发现系统中的问题
 
+##### HystrixCircuitBreaker
+
+* HystrixCommandProperties.circuitBreakerRequestVolumeThreshold QPS达到一定阈值
+* HystrixCommandProperties.circuitBreakerErrorThresholdPercentage 错误率达到一定阈值
+* 熔断器将从『闭路』转换成『开路』
+* 若此时是『开路』状态熔断器将短路后续所有经过该熔断器的请求,这些请求直接走『失败回退逻辑』
+* 经过一定时间（即『休眠窗口』通过 `HystrixCommandProperties.circuitBreakerSleepWindowInMilliseconds()` 配置）后续第一个请求将会被允许通过熔断器（此时熔断器处于『半开』状态）, 若该请求失败，熔断器将又进入『开路』状态, 且在休眠窗口内保持此状态; 若该请求成功, 熔断器将进入『闭路』状态
+
 ##### 常规属性
 
 * hystrix.command.default.execution.isolation.strategy  隔离策略,默认是Thread,可选Thread｜Semaphore
