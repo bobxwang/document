@@ -10,7 +10,7 @@
 
 * Partition topic的物理分组,每个partition是个有序队列 
 
-* Segment  partition的物理分组
+* Segment  partition的物理分组,由 *.index跟 *.log两个文件组成 
 
 * Producer
 
@@ -49,8 +49,8 @@
 #### 配置
 
 ```
-num.partitions=3  // 
-default.replication.refactor=3 // 副本个数
+num.partitions=3  // topic默认的partition数量 
+default.replication.refactor=3 // partition的副本个数
 log.segment.bytes // segment的文件生命周期
 request.required.acks //设置数据可靠性级别,1默认,0效率最高但可靠性最低相当于只管发不确认,-1可靠性最高但效率低需要所有ISR确认,如果此时ISR只有leader一个时,相当于退化成默认值1的情况
 min.insync.replicas // 配合上面的参数值是-1的情况此参数才起作用
@@ -60,6 +60,3 @@ queue.buffering.max.message // 发送异步时,缓存队列最大缓存消息数
 queue.enqueue.timeout.ms // -1为默认则阻塞,如果为0则丢弃,配合上一个参数
 batch.num.messages // 异步时每次批量发送的数量 
 ```
-
-
-
