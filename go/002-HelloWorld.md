@@ -1,6 +1,6 @@
 #### HelloWorld
 
-```
+```go
 package main
 
 import "fmt"
@@ -20,7 +20,7 @@ func main() {
 
 * 点操作
 
-  ```
+  ```go
   import (
   	. "fmt"
   )
@@ -30,7 +30,7 @@ func main() {
 
 * 别名操作
 
-  ```
+  ```go
   import (
   	f "fmt"
   )
