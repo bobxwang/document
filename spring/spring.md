@@ -6,7 +6,8 @@
 * Bean 依赖检查 -- None, Simple, object, all 四种模式,Bean定义中设置dependency-check属性
 * Bean 对IOC容器的感知 -- BeanNameAware, BeanFactoryAware, MessageSourceAware, ApplicationEventPublisherAware, ResourceLoaderAware 
 * 定义一个Bean时，设置其parent属性表明此bean继承自另一个bean，或者设置其abstract属性为true，表明此Bean是一个基类
-* BeanPostProcessor 后置处理器的一个监听器，processaAfterinitializaiton()
+* BeanPostProcessor 后置处理器的一个监听器，postProcessBefore/AfterInitializaiton
+* BeanFactoryPosProcessor#CustomEditorConfigurer#PropertyPlaceholderConfigurer
 * Autowiring -- byname/bytype
 * scope -- singleton,prototype,针对web应用，还有request(请求阶段),session(会话阶段),globalSession(基于Portlet的Web应用程序会话阶段)
 * lifecycle -- InitalizingBean的afterPropertiesSet，
@@ -19,7 +20,7 @@
 
 * DispatcherServlet,前置处理器，继承自FrameworkServlet，HttpServletBean，HttpServlet
 * org.springframework.web.context.ContextLoaderListener，上下文件监听器，继承自ContextLoader
-* HTTP 分发 -- HandlerMapping: SimpleUrlHanlerMapping,ControllerBean/ClassNameHandlerMapping,DefaultAnnotationHandlerMapping(已过时)被RequestMappingHandlerMapping替换,BeanNameUrlHandlerMapping
+* HandlerMapping: SimpleUrlHanlerMapping,ControllerBean/ClassNameHandlerMapping,DefaultAnnotationHandlerMapping(已过时)被RequestMappingHandlerMapping替换,BeanNameUrlHandlerMapping
 * HandlerMapping -- HandlerExecutionChain(包含一个Handler对象，多个HandlerInterceptor对象)
 * HandlerAdapter -- 把处理器包装为适配器，从而支持多种类型处理器，即适配器设计模式的应用，从而容易支持多种类型的处理器 
 * HandlerInterceptor -- 
@@ -39,25 +40,22 @@
 * CGLIB — DynamicAdvisedInterceptor
 * TargetSource
 * ProxyFactoryBean/ProxyFactory
+* MethodBeforeAdvice/AfterReturningAdvice/MethodInterceptor/ThrowsAdvice
+* NameMatchMethodPointcutAdvisor/RegExpMethodPointcutAdvisor/ControlFlowPointcut/Pointcuts
+* IntroductionInterceptor/DelegatingIntroductionInterceptor
+* Autoproxing/BeanNameAutoProxyCreator/DeafultAdvisorAutoProxyCreator
 
 ##### DB
 
+* PlatformTransactionManager 
 * TransactionDefinition/DefaultTranscationDefinition
-
 * DataSourceTransactionManager -> AbstractPlatformTransactionManager -> PlatformTransactionManager -> TransactionInterceptor ->
-
 * TransactionAspectSupport
-
 * TransactionAttrubuteSourceAdvisor，TransactionStatus，TransactionAttributePointcut(读取TransactionAttribute)，TransactionAttributeSource
-
 * isolation/propagation(事务隔离级别/传播行为)
-
 * 回滚规则(rollback-for/no-rollback-for) 
-
 * @Transactional -> 持久化上下文/事务，里面可以设置传播行为，隔离级别，是否只读，超时时间，回滚规则
-
   * 传播行为 
-
     * Mandatory，方法必须在一个现存的事务中进行，否则抛出异常
     * Nested，在一个嵌入的事务中进行，如果不是，则跟Required行为一样
     * Never，方法不应该在事务中进行，否则抛出异常
@@ -65,13 +63,10 @@
     * Required，支持现存的事务，如果没用则新建一个
     * Required_New，需要在一个新事务中运行，如果现存有一个事务就暂停它
     * Supports，支持现存的事务，如果没有则以非事务方式运行
-
   * 隔离级别
-
     > 脏读 某事务更新一份数据，另一个事务此时读取了同一份数据，然而由于某些原因，前一个事务做了回滚，则后面这个读取的即为脏数据
     >
     > 不可重复读 在一个事务的两次查询中读取到的数据不一致，可能是两次查询中间插入了一个事务更新的原有数据
-
     * Default，使用底层数据库的隔离层级
     * Read_Committed，允许事务读取其他并行的事务已提交的数据，可以防止脏读
     * Read_UnCommitted，允许事务读取其它并行的事务还没提交的数据，会发生Dirty,Nonrepeatable,Phantom Read等问题
