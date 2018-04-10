@@ -33,8 +33,9 @@
 
 #### 集群
 
-* Redis Sentinel 着眼于高可用在master宕机时会自动将slave提升为master继续提供服务
-* Redis Cluster 着眼于可扩展性,单个redis内存不足时,使用Cluster进行分片存储
+* Redis Sentinel 3.0版本之前的解决方案,着眼于高可用在master宕机时会自动将slave提升为master继续提供服务
+* Redis Cluster 3.0后官方版本,着眼于可扩展性,单个redis内存不足时,使用Cluster进行分片存储
+  > slot(槽): 使用数据分片而非一致性哈希,一个redis集群包含 16384 个哈希槽,是一个逻辑意义上的,实际并不存在,在存取key时会进行key-slot的映射, HASH_SLOT(key) = CRC16(key) % 16384 
 
 #### 关注问题
 
