@@ -2,6 +2,8 @@
 <configuration debug="false">
 	<contextName>yoro</contextName>
 	<property name="path" value="/data/wmall_logs/"></property>
+	<property name="PATTERN_FORMAT"
+              value="%d{yyyy-MM-dd HH:mm:ss SSS} [%boldYellow(%thread)] [%boldRed(%X{requestid})] %highlight(%-5level) [%boldGreen(%logger{36}:%line)] - %msg%n"></property>
 	
 	<!-- 控制台输出 -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
