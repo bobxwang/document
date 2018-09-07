@@ -6,6 +6,27 @@
 * 任何第三方依赖之间相互隔离
 * 通过近实时的监控和报警及时发现系统中的问题
 
+##### 实现原理
+
+* 隔离(线程池隔离/信号量隔离)
+* 优雅的降级机制(超时/资源不足)
+* 融断，当失败率达到阀值自动触发，快速失败
+* 缓存
+* 支持实时监控 
+
+##### 批量执行
+
+* HystrixCollapser 
+
+##### 插件 
+
+* HystrixConcurrencyStrategy
+* HystrixEventNotifier
+* HystrixMetricsPublisher
+* HystrixPropetiesStrategy
+* HystrixCommandExecutionHook
+* HystrixDynamicProperties
+
 ##### HystrixCircuitBreaker
 
 * HystrixCommandProperties.circuitBreakerRequestVolumeThreshold QPS达到一定阈值
