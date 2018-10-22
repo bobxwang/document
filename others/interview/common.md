@@ -33,7 +33,10 @@
   	 DispatchServlet -> HandlerMapping -> HandlerExecutionChain -> HandlerInterceptor -> HandlerAdapter -> Controller 
 	 Validator/PropertyEditor  
 	基于请求驱动，前端控制器
-6，mybatis 分页，缓存 
+6，mybatis
+	缓存
+	  一级缓存作用域是同一个SqlSession，默认开启
+  	  二级缓存作用域是Mapper级别，基于Executor对象上做文章 
 7，redis 存储类型，事物，使用场景
 8，dubbo 超时重试
 9，保障请求执行顺序
