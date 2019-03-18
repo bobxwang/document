@@ -46,6 +46,27 @@ shards/replicas 分片/副本
 
 对于熟悉关系型数据库的童鞋，我们可以这样认为，一个Index就是一个DB，Document就是一行数据，Field就是Table的Column，而Mapping就是Table的定义，而Type就是一个Table。对于Type，其实它的存在就是为更好的查询，举个例子，一个Index，可能一部分数据我们想这样查，而另一部分数据我们想使用另一种查询方式，于是就有了两种Type。
 
+###### text/keyword 存储类型区别
+
+> text 类型的字段会被分词，同时生成索引，而 keyword 不会分词建立索引，默认存入整个对象 
+
+- match
+
+  > 会分词，查 keyword 类型时，需完全匹配，当查询 text 类型时，只有 match 的分词结果跟 text 字段的分词结果有相同的才会匹配 
+
+- match_phrase
+
+  > 会分词，查 keyword 类型时，需完全匹配，当查询 text 类型时，match_phrase的分词结果必须在text字段分词中都包含，而且顺序必须相同且必须都是连续的
+
+- query_string
+
+  > 无法查询 keyword 类型的字段，查询 text 字段时，跟 match_phrase 区别的一点是，不需要连续而且顺序也可以不一样 
+
+- term
+
+  > 不分词，属精确查询，查 keyword 类型时，需完全匹配，查 text 类型时，因为 text 被分词了，如果想查到结果，那么 term 的查询条件必须是 text 字段分词后的某一个  
+
+
 默认端口是9200，修改http.port来绑定HTTP协议的9200，内部通信9300，修改transport.tcp.port。如果不需要http端口干脆禁用
 http://127.0.0.1:9200/_cat/nodes?v
 http://127.0.0.1:9200/_cat/health?v　
