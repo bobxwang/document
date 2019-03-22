@@ -71,3 +71,7 @@ else
         echo "All database backup success! Thank you!"
         exit
 fi
+
+##### crontrab
+00 00 * * * /root/mysql_backup.sh 
+> 每天零时自动备份
