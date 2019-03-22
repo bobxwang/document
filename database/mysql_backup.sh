@@ -1,3 +1,4 @@
+``` bash
 #!/bin/bash
 
 # 以下配置信息请自己修改
@@ -71,6 +72,7 @@ else
         echo "All database backup success! Thank you!"
         exit
 fi
+``` 
 
 ##### crontrab
 00 00 * * * /root/mysql_backup.sh 
