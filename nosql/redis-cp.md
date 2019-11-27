@@ -1,6 +1,6 @@
 > Redis做为基于K-V的数据库,具有高性能,丰富的数据结构,持久化,高可用,分布式,支持复制等特性,应用场景也是百花齐放.有会话缓存（Session cache）全页缓存（FPC）手机验证码、访问频率限制/黑白名单、消息队列、发布与订阅、消息通知、排名/排行榜/最新列表、计数器（比如微博的转评赞计数、阅读数（浏览数，视频播放计数）、博文数（发帖数）、粉丝数、关注数（喜欢商品数）、未读数（动态数））、共同好友/喜好/标签、推送、下拉刷新、私信、商品库存管理（限时的优惠活动信息）、证券指标实时计算，发号器/UUID、以及随着LBS（基于位置服务）的发展，加入的GEO（地理信息定位）的功能和基于Lua自定义命令或功能等
 >
-> Memcache把数据存放在内存里，如果断电则丢失，而Redis可以在后台保存到磁盘中
+> Memcache把数据存放在内存里，如果断电则丢失，同时它不支持主从也不支持分片，而Redis可以在后台保存到磁盘中，主从分片都支持。
 >
 > 每秒可以处理10万次读写操作,单个Value的最大限制是 1 个 G
 
@@ -32,39 +32,25 @@
 * maxmemory 设置下, 该项告诉redis使用了多少物理内存后拒绝后续写入请求,可保护不会 swap 
 
 #### 集群
-
-* Redis Sentinel 3.0版本之前的解决方案,着眼于高可用在master宕机时会自动将slave提升为master继续提供服务
+* Redis Sentinel（哨兵）3.0版本之前的解决方案,着眼于高可用在master宕机时会自动将slave提升为master继续提供服务
 * Redis Cluster 3.0后官方版本,着眼于可扩展性,单个redis内存不足时,使用Cluster进行分片存储
   > slot(槽): 使用数据分片而非一致性哈希,一个redis集群包含 16384 个哈希槽,是一个逻辑意义上的,实际并不存在,在存取key时会进行key-slot的映射, HASH_SLOT(key) = CRC16(key) % 16384 
 
 #### 关注问题
 
 * 安全问题
-
   > 用非root用户启动,尽量不要暴露在外网,配置认证项,开启危险命令认证
-
 * 容量问题
-
   > 合理评估,使用内存分配策略（no-enviction、allkeys-random、allkeys-lru、volatile-random、volatile-ttl、volatile-lru）水平拆分
-
 * big-key问题
-
   > 可能会引起慢查或带宽瓶颈,拆成小key
-
 * hot-key问题
-
   > redis是单进程,节点实例容易成为系统短板,如果只是简单k-v,可使用memcached
-
 * 使用姿势问题
-
   > 避免使用阻塞操作（如：flushall、flushdb、keys *等）尽量使用Pipeline
-
 * Key过期问题
-
   > 合理设置过期时间,如有许多过期key没及时删除可使用scan,hscan,sscan,key 遍历来删除
-
 * 配置上
-
   > 开启tcp-keepalive, tcp-backlog, 关闭NUMA, swap, transparent_hugepage 
 
 #### redis-server
@@ -136,3 +122,13 @@ CONFIG get maxclients
 #### 分区
 
 > 没有采用一致性哈希,而是使用数据分片,引入了哈希槽(hash slot)实现
+
+#### 常见问题
+
+- 不应该使用 keys pattern 指令来查找符合某一条件的 key，它会一次性返回所有的 key，造成卡顿，应使用 scan 
+- 分布式锁，SETNX 虽然原子性，但不支持传入 EXPIRE 参数，从2.6.12版本开始，可使用 SET 操作，它将 SETNX跟 EXPIRE 融合在一起 
+  > SET KEY value [EX seconds] [PX milliseconds] [NX|XX]
+- Pub/Sub缺点，消息发布是无状态的，无法保证可达，对发布者来讲，消息是即发即失的。
+- 持久化，RDB是通过保存某个时间点的全量数据快照来实现，如果数据量太大会影响性能，而AOF是通过保存写状态来记录数据的，以增量的形式。4.0版本后推出了混合模式
+- 主从模式，一个Master节点来进行写操作，若干个Slave进行读操作，数据不一定是即时同步，但会最终一致。
+
