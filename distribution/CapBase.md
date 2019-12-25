@@ -36,5 +36,11 @@
 
 > 容错, 容错不是指系统能够在系统各种故障情况下还能工作,而是指系统在故障时能以明确的预订方式运行
 
+#### Base 理论
+
+- Basically Avaiable 基本可用 
+- Soft state 
+- Eventually consistent 最终一致性
+
 
 

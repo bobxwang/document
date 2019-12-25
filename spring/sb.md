@@ -1,37 +1,60 @@
-pring 
+spring 
 
 https://github.com/eugenp/tutorials  java open source   
 
-@Configuration 相当于加载某个xml文件，进行bean解析注入
+#### 开箱即用
 
-java -jar app.jar —name=“spring”
-java -Dname=“spring” -jar app.jar 
+- ConditionalOnClass 
+- EnableConfigurationProperties
+- EnableAutoConfiguration 
+- EnableAutoConfigurationImportSelector 
+- SpringFactoriesLoader 
 
-—spring.config.name=application.yml
-—spring.config.location=classpath:/default.yml,classpath:/override.yml
-the default search path is classpath:,classpath:/config,file:,file:config/ this places will always used 
+### Run
+
+```bash
+java -jar app.jar --name="spring" --spring.config.name=application.yml
+java -Dname="spring" -jar app.jar --spring.config.location=classpath:/default.yml
+```
+
+the default config file search path is classpath:,classpath:/config,file:,file:config/ this places will always used 
 —spring.profiles.active=dev 
 
-BeanFactoryUtils
+#### BeanFactoryUtils
+
+```java
 WebApplicationContext webApplicationContext = RequestContextUtils.findWebApplicationContext((HttpServletRequest) request);
 ApplicationContext applicationContext = webApplicationContext.getParent();
 Map<String, SimplePushConsumer> maps = applicationContext.getBeansOfType(SimplePushConsumer.class);
 for (Map.Entry<String, SimplePushConsumer> item : maps.entrySet()) {
     System.out.println(item);
 }
+```
 
 servlet的requestbody以及response的body一旦流被读取了，就无法再次消费了，因此这对于有要拦截请求，记录相关信息的时候，带来一个潜在的坑。那么如何处理这个呢，利用filter，wrapper一层，然后proceed，最后response完之后在把cached的body设置回原始响应。ContentCachingRequestWrapper/ContentCachingResponseWrapper的作用就是为了让你可以继续消费 
 
+``` java
 RequestAttributes reqAttr = RequestContextHolder.getRequestAttributes();
 HttpServletRequest req = ((ServletRequestAttributes) reqAttr).getRequest();
+```
 
-XML Configuration 
-<bean id=“***” name=“***” />
-Java Based Configuration
-@Configuration
-public class A { @Bean public B b() {return new B(); } }
-Annotation Based Configuration
-use @Service,@Component and so on 
+### Bean Config
+
+- XML Configuration 
+  <bean id="***" name="***" />
+
+- Java Based Configuration
+
+  ``` java
+  @Configuration
+  public class A { @Bean public B b() {return new B(); } }
+  ```
+
+- Annotation Based Configuration
+
+  ``` java
+  @Service/@Component
+  ```
 
 Auto wire -> byName/byType/byConstructor 
 
