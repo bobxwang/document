@@ -36,13 +36,29 @@
 
 ##### AOP
 
+- proxy-target-class，设置为 true 则强制走 CGLIB 代理 
+- expose-proxy，设置为 true 解决对象内部 this 调用无法被切面增强的问题
+
+- AspectJAutoProxyBeanDefinitionParser 
+
 * JDK — InvocationHandler
+
+  > 基于实现目标类的接口创建，故只有接口会被代理，其它方法不会被代理 
+
 * CGLIB — DynamicAdvisedInterceptor
+
+  > 基于继承目标类实现，所以不能被继承的方法（final/private）是不会被代理的 
+
 * TargetSource
+
 * ProxyFactoryBean/ProxyFactory
+
 * MethodBeforeAdvice/AfterReturningAdvice/MethodInterceptor/ThrowsAdvice
+
 * NameMatchMethodPointcutAdvisor/RegExpMethodPointcutAdvisor/ControlFlowPointcut/Pointcuts
+
 * IntroductionInterceptor/DelegatingIntroductionInterceptor
+
 * Autoproxing/BeanNameAutoProxyCreator/DeafultAdvisorAutoProxyCreator
 
 ##### DB

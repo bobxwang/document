@@ -24,6 +24,7 @@
 - HibernateJpaVendorAdapter
 - MessageListenerAdapter
 - WebMvcConfigurerAdapter
+- HandlerAdatper
 
 #### 桥接模式 
 
@@ -45,3 +46,18 @@
 #### 观察者模式
 
 - ApplicationEvent / ApplicationListener 
+
+#### 代理模式 
+
+- AOP 
+
+#### 策略模式
+
+- Resource 
+  - UrlResource
+  - ClassPathResource
+  - FileSystemResource
+
+#### 模板模式 
+
+- JdbcTemplate

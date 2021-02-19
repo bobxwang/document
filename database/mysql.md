@@ -8,6 +8,8 @@
 
 5，查询执行引擎 
 
+6，表锁有 MySql Server 实现，而行锁由存储引擎实现。
+
 ##### 优化
 * 表结构设计与数据类型选择，采用小而简单原则
 * 创建高性能索引
@@ -27,4 +29,20 @@
 | 行级锁       | 不支持 | 支持   |
 | 自动奔溃恢复 | 不支持 | 支持   |
 |              |        |        |
+
+##### Mac Brew Mysql Forget Pass
+
+``` shell
+vim /usr/local/etc/my.cnf
+// 在最后添加 skip-grant-tables 这一行，:wq 保存退出，这一行目的是跳过密码验证
+mysql.server restart  // service mysql stop/start
+mysql -u root -p  // 直接回车，因前面配置了跳过密码验证
+select version(); // 确认当前版本
+flush privileges; // 刷新
+user mysql;
+alter user‘root‘@‘localhost‘ IDENTIFIED BY ‘aBc@123456‘;
+vim /usr/local/etc/my.cnf // 删掉刚开始加的那一行，恢复密码验证
+mysql.server restart // 重启 brew services start/stop/restart mysql
+mysql -u root -p // 输入 aBc@123456 进行登录
+```
 

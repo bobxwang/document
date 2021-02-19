@@ -24,7 +24,7 @@
 
   ![exchange](exchange.png)
 
-  > 生产者将消息实际上发送到exchange,由它来将其路由到queue中(或丢弃),怎么路由呢, 根据Binding进行路由
+  > 生产者将消息实际上发送到exchange(交换机),由它来将其路由到queue中(或丢弃),怎么路由呢, 根据Binding进行路由
 
   * fanout, 进行广播,将所有message都放到它所知道的queue中
   * direct, 根据 routing key 进行匹配传递到相应的queue, 需要完全匹配 routing key 
@@ -40,3 +40,10 @@
   ![bind](binding.png)
 
   > 绑定用于消息队列跟交换器之间的关联
+
+##### 消息发布与消费权衡
+
+##### 消息拒绝怎么解决
+
+##### 控制队列与消息属性
+

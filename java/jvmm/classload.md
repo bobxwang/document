@@ -30,5 +30,22 @@
 ##### 双亲委派
 
 - Bootstrap ClassLoader
+
 - Extension ClassLoader
+
 - Application ClassLoader 
+
+- 打破双亲
+
+  - Tomcat WebApp ClassLoader 
+
+    > 解决加载各自应用下的 WEB-INF/class 跟 WEB-INF/lib
+
+  - Tomcat Catalina ClassLoader 
+
+    > ${catalina.base}/lib,${catalina.base}/lib/*.jar${catalina.home}/lib,${catalina.home}/lib/*.jar
+
+  - Tomcat Common ClassLoader
+
+    > ${catalina.home}/lib,${catalina.home}/lib/*.jar
+

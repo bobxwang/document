@@ -63,3 +63,15 @@ private static final int COUNT_BITS = Integer.SIZE - 3;  // 线程数量占用�
 ##### addWorker(Runnable firstTask, boolean core)
 
 > addWorker有2种情况,一种就是线程数量不足核心线程数,另一种就是核心线程数已满同时任务队列已满但是线程数不足最大线程数,参数 core 就是用来区分上述两种情况的 
+
+##### newCachedThreadPool
+
+> SynchronousQueue，允许创建最大线程数为 Integer.MAX，大量创建线程会导致 OOM
+
+##### newFixedThreadPool/newSingleThreadExecutor
+
+> LinkedBlockingQueue，队列长度为 Integer.MAX，大量请求会导致 OOM
+
+##### newScheduledExecutor
+
+> DelayedWorkQueue，允许创建最大线程数为 Integer.MAX，大量创建线程会导致 OOM

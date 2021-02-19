@@ -8,6 +8,25 @@
 
 * String(字符串)  二进制安全，意味着没有任何特殊终端字符来确定长度，可存储任何长度为512M的字符串
 
+  > <font color=red>SDS(Simple Dynamic String)</font>
+
+  ```c
+  struct sdshdr {
+    int free; 	// buf[]数组未使用字节的数量
+    int len;  	// buf[]数组所保存的字符串长度
+    char buf[]; // 保存字符串的数组
+  }
+  ```
+
+  相比 C 的字符串，SDS 的优点有哪些呢？
+
+  - 效率高，使用 strlen 命令得到一个字符串长度，直接用 len 值，复杂度是 O(1)
+  - 数据溢出，
+  - 内存重新分配，
+    - 空间预分配
+    - 惰性空间释放
+  - 数据格式多样性，C 字符串的字符必须符合某些特定的编码格式，如不能包含 \0，因为这个是标识一个字符串结束，否则会被认为是多个(所以只能保存文本数据)，像音视频/图片这种就不行，而 redis 会以二进制的方式处理 Buf 数组中的数据，所以对存入其中的数据未做任何限制过滤，只要存进去什么样，出来还是什么样。
+
 * Hash(哈希)  字符串字段和字符串值之间的映射，HMSET**，**HGETALL
 
 * List(列表)  lpush，lrange，列表最大长度为2`32 - 1个元素
@@ -34,23 +53,31 @@
 #### 集群
 * Redis Sentinel（哨兵）3.0版本之前的解决方案,着眼于高可用在master宕机时会自动将slave提升为master继续提供服务
 * Redis Cluster 3.0后官方版本,着眼于可扩展性,单个redis内存不足时,使用Cluster进行分片存储
+  
   > slot(槽): 使用数据分片而非一致性哈希,一个redis集群包含 16384 个哈希槽,是一个逻辑意义上的,实际并不存在,在存取key时会进行key-slot的映射, HASH_SLOT(key) = CRC16(key) % 16384 
 
 #### 关注问题
 
 * 安全问题
+  
   > 用非root用户启动,尽量不要暴露在外网,配置认证项,开启危险命令认证
 * 容量问题
+  
   > 合理评估,使用内存分配策略（no-enviction、allkeys-random、allkeys-lru、volatile-random、volatile-ttl、volatile-lru）水平拆分
 * big-key问题
+  
   > 可能会引起慢查或带宽瓶颈,拆成小key
 * hot-key问题
+  
   > redis是单进程,节点实例容易成为系统短板,如果只是简单k-v,可使用memcached
 * 使用姿势问题
+  
   > 避免使用阻塞操作（如：flushall、flushdb、keys *等）尽量使用Pipeline
 * Key过期问题
+  
   > 合理设置过期时间,如有许多过期key没及时删除可使用scan,hscan,sscan,key 遍历来删除
 * 配置上
+  
   > 开启tcp-keepalive, tcp-backlog, 关闭NUMA, swap, transparent_hugepage 
 
 #### redis-server
@@ -126,11 +153,20 @@ CONFIG get maxclients
 #### 常见问题
 
 - 不应该使用 keys pattern 指令来查找符合某一条件的 key，它会一次性返回所有的 key，造成卡顿，应使用 scan 
+
 - 分布式锁，SETNX 虽然原子性，但不支持传入 EXPIRE 参数，从2.6.12版本开始，可使用 SET 操作，它将 SETNX跟 EXPIRE 融合在一起 
+  
   > SET KEY value [EX seconds] [PX milliseconds] [NX|XX]
+  
 - Pub/Sub缺点，消息发布是无状态的，无法保证可达，对发布者来讲，消息是即发即失的。
+
 - 持久化，RDB是通过保存某个时间点的全量数据快照来实现，如果数据量太大会影响性能，而AOF是通过保存写状态来记录数据的，以增量的形式。4.0版本后推出了混合模式
+
 - 主从模式，一个Master节点来进行写操作，若干个Slave进行读操作，数据不一定是即时同步，但会最终一致。
+
+- INFO commandstats，命令统计工具可查看所有命令统计的快照 
+
+- try/except 块，确保关键性数据放入实例，因为大多数采用的是发送即忘策略，有可能并没真正放入
 
 #### 使用规范
 - 冷热数据区分 

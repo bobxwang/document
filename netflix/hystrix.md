@@ -18,6 +18,15 @@
 
 * HystrixCollapser 
 
+##### CircuitBreaker
+
+* boolean attemptExecution() 
+
+  > forceOpen 强制开启，所有请求都执行降级逻辑 
+  > forceClose 强制关闭，所有请求都执行正常逻辑
+  > circuitOpened 熔断开关，默认为-1，请求执行正常逻辑，如果发生熔断，该值会成为0，请求执行阶级逻辑
+  > HALF_OPEN 熔断半开，即熔断后，会每隔一段时间进行试探 
+
 ##### 插件 
 
 * HystrixConcurrencyStrategy
@@ -70,3 +79,29 @@
 * hystrix.command.default.circuitBreaker.forceOpen 强制打开熔断器，如果打开这个开关，那么拒绝所有request，默认false
 
 * hystrix.command.default.circuitBreaker.forceClosed 强制关闭熔断器 如果这个开关打开，circuit将一直关闭且忽略circuitBreaker.errorThresholdPercentage
+
+``` java
+public static void main(String[] args) {
+  System.out.println(test("java"));
+}
+private static String test(String name) {
+  HystrixUtil.HystrixReqConfig hc = HystrixUtil.HystrixReqConfig
+    .withGroupKey("testgroup")
+    .withTimeout(3)
+    .withUnit(TimeUnit.SECONDS)
+    .withPassNum(64);
+  String result = HystrixUtil
+    .getExcuteResult(new HystrixCallableService<String>(){
+    	@Override
+      public String execute() {
+        return "success" + name;
+      }
+      @Override 
+      public String fallback() {
+        return "fallback" + name;
+      }
+  },hc);
+  return result;
+}
+```
+

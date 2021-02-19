@@ -33,7 +33,7 @@ Person.printUniqueSkill()
 
 > 至少满足下列两个条件: 接受函数作为输入; 输出一个函数 
 
-#### PartialFunction
+#### 偏函数 PartialFunction 
 
 > 是一个二元函数,只在部分输入上有定义,并允许使用者去检查一个给定的输入上是否有定义 
 
@@ -81,4 +81,4 @@ List("Scala", "Scala-2.11.6", "Golang", "PHP").foreach {lang =>
 > * 发送者与已发送消息间解耦,这是Actor模型显著特点,据此实现异步通信
 > * actor是封装状态和行为的对象,通过消息交换进行相互通信,交换的消息存放在接收方的邮箱中
 > * actor可以有父子关系,父actor可以监管子actor,子actor唯一的监管者就是父actor
-> * 一个actor就是一个容器,它包含了状态,行为,一个邮箱（邮箱用来接受消息,子actor和一个监管策略
+> * 一个actor就是一个容器,它包含了状态,行为,一个邮箱(邮箱用来接受消息,子actor和一个监管策略)

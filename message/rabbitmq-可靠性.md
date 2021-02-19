@@ -17,18 +17,21 @@
   * channel.txRollback
 - 发送方确认机制 
 > 异步
+
   * channel.confirmSelect
 
 > 事务机制跟发送方确认机制是互斥的,不能共存,这两个机制可以确保消息被正确发往到rabbitmq的交换机
 
 ##### Phase 2
 > mandatory是channel.basicPublish的参数,immediate此参数在rabbitmq3.0版本后被去掉,当mandatory参数为true时,如果交换机找不到一个符合条件的队列,会返回Basic.Return给生产者,如果是false那么消息直接被丢弃,生产者可以通过addReturnListener来添加监听器实例
-<pre>channel.addReturnListener(new ReturnListener() {
-     public void handleReturn(int replyCode,String replyText,String exchange,String routingKey,AMQP.BasicProperties bp,byte[] body) {
+```java
+public void handleReturn(int replyCode,String replyText,String exchange,String routingKey,AMQP.BasicProperties bp,byte[] body) {
      	 String message = new String(body);
 	 System.out.println("Basic.Return 返回了:" + message);
      }
-})</pre>
+})
+```
+
 
 ##### Phase 3
 > 持久化提高消息可靠性,通过在申明队列时将durable参数设置为true实现,队列的持久化能保证其本身元数据不会因异常情况而丢失,但不能保证内部所存储的消息不会丢失,如果要确保消息不会丢失,需要将消息的投递模式(BasicProperties中的deliveyMode设置为2才行)

@@ -38,13 +38,13 @@
 
   - 三大垃圾收集算法
 
-    - 标记/清除算法
+    - 标记/清除算法，缺点是会产生碎片且整体效率不高
 
-    - 复制算法
+    - 复制算法，缺点是内存空间消耗大，当对象存活概率高的时候开销更大
 
       新生代对象是"朝生夕死"的
 
-    - 标记/整理算法
+    - 标记/整理算法，将所有存活对象移到一端再清掉边界外内存
 
   - 垃圾收集器 
 
@@ -74,7 +74,15 @@
 
 #### 参数调优
 
+-verbose:gc 输出虚拟机GC详情
+
 XX:+PrintGCDetails 
+
+X:loggc:log/gc.log 
+
+XX:+TraceClassLoading
+
+XX:+PrintClassHistogram
 
 XX:MaxTenuringThreshold 设定通过多少次的标识后新生代存活对象移到老年代中 
 
@@ -84,7 +92,11 @@ Xms 初始堆大小
 
 Xmx 最大堆大小
 
+Xss 线程栈空间大小
+
 Xmn 新生代大小，通常为 Xmx 的1/3或1/4
+
+XX:NewRatio 新生代老生代分配比例
 
 XXNewSize 年轻代大小 
 
@@ -94,3 +106,58 @@ XX:PermSize 永久代大小初始大小
 
 -XX:UseSerialGC 串行收集
 
+XX:+HeapDumpOnOutMemoryError 发生OOM时导出堆的信息到文件中
+
+XX:+HeapDumpPath 导出堆信息的文件路径
+
+#### 生产环境的垃圾回收方法理论与实践
+
+##### top 观察系统运行情况
+
+##### jps 定位虚拟机进程 
+
+列出 JVM 中运行着的进程状态信息
+
+```shell
+-l 输出main类或Jar的全限名
+-q 不输出类名，Jar名和main方法传入的参数，相当于只列出进程号
+-m 输出传入main方法的参数
+-v 输出传入jvm的参数
+```
+
+##### jstat 定位jvm问题
+
+``` shell
+jstat -gc -pid 250 4 
+```
+
+##### jmap 导出内存转储文件
+
+##### jstack 定位问题线程
+
+``` shell
+jstack -pid 
+```
+
+##### jhat (Heap Analysis Tool) 分析转储文件
+
+##### 其它 visual vm/MAT/Arthas介绍 
+
+##### GC 指标 
+
+- GC 时间
+- GC 频率 
+
+##### 系统上线前预估系统的内存占用情况
+
+##### 系统上线前预估系统的并发访问情况
+
+##### 压力测试方法论
+
+##### 根据压测结果调整参数值 
+
+##### 系统上线后设定日志参数 
+
+##### 定期观察日志情况
+
+##### 根据日志解决实战问题

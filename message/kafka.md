@@ -14,6 +14,8 @@
 
 * Producer
 
+  > 重写 key，可以将某些消息指定发往某个 partition，做到消息有序
+
 * Consumer
 
 * ConsumerGroup
@@ -28,7 +30,7 @@
 
 * ISR 
 
-  > In-Sync Replicas, 副本同步队列, 所有副本统称为**Assigned Replicas**,即**AR**,**ISR**是其的一个字集
+  > In-Sync Replicas, 副本同步队列, 所有副本统称为**Assigned Replicas**,即**AR**,**ISR**是其的一个字集,他的含义就是跟 leader 始终保持同步的 follower 数
 
 #### 水平扩展
 
@@ -46,17 +48,28 @@
 * at most once 
 * exactly once 
 
+#### 重点
+
+每一个 Consumer 只会同时 bind 一个 partition，也就是说一个 Consumer 只会找一个 partition 来拉资料，准确地说，是一个 partition 只能同时被同一 consumer group 中的一个 consumer 消费，这样来保证这个 partition 对于同一个 consumer group 来说不会被并发取。
+
+<font color=blue>假设partition的数量是n，而conumer group中的consumers数量为m，那合理的配置应该是: m<=n，因为每个 partition 只能绑定到一个 consumer，如果 m > n，那么就会有 m-n 个consumer是不会绑定到 partition的，也即不会收到数据。另外，kafka 有 rebalance 功能，若在 consumer group中新增 consumer，会触动 rebalance进行重新分配 partition 跟 consumer 间的对应关系，从而解决失衡问题。 </font>
+
+#### 副本
+
+每个 partition 都有多个副本，其中一个副本叫 leader，其它副本叫 follower。只有 leader 对外提供读写服务
+
 #### 配置
 
 ```
-num.partitions=3  // topic默认的partition数量 
-default.replication.refactor=3 // partition的副本个数
-log.segment.bytes // segment的文件生命周期
+num.partitions=3  //topic默认的partition数量 
+default.replication.refactor=3 //partition的副本个数
+log.segment.bytes //segment的文件生命周期
 request.required.acks //设置数据可靠性级别,1默认,0效率最高但可靠性最低相当于只管发不确认,-1可靠性最高但效率低需要所有ISR确认,如果此时ISR只有leader一个时,相当于退化成默认值1的情况
-min.insync.replicas // 配合上面的参数值是-1的情况此参数才起作用
-producer.type=(a)sync // 发送是异步还是同步
-queue.buffering.max.ms // 发送异步时,会缓存多久的数据再一次性发送出去,增加吞吐量但会降低时效性
-queue.buffering.max.message // 发送异步时,缓存队列最大缓存消息数量如超过,则会阻塞或丢弃
-queue.enqueue.timeout.ms // -1为默认则阻塞,如果为0则丢弃,配合上一个参数
-batch.num.messages // 异步时每次批量发送的数量 
+min.insync.replicas //配合上面的参数值是-1的情况此参数才起作用
+producer.type=(a)sync //发送是异步还是同步
+queue.buffering.max.ms //发送异步时,会缓存多久的数据再一次性发送出去,增加吞吐量但会降低时效性
+queue.buffering.max.message //发送异步时,缓存队列最大缓存消息数量如超过,则会阻塞或丢弃
+queue.enqueue.timeout.ms //-1为默认则阻塞,如果为0则丢弃,配合上一个参数
+batch.num.messages //异步时每次批量发送的数量 
 ```
+
