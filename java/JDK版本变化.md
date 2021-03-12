@@ -1,0 +1,7 @@
+- JDK 1.5 引入注解，用于对代码进行说明
+- JDK7前，字符串常量池被放在运行时常量池中，属于永久代，而在7后，字符串常量池被移到Native Method中，这是因为永久代空间有限，在大量使用字符串的场景下会导致 OutOfMemoryError 错误。
+- JDK7后，switch 开始支持字符串做 case，但不支持 long，因为其设计初衷是对那些只有少数的几个值进行等值判断，如果值过于复杂，那么还是用 if 比较合适。
+- JDK8前，接口可以有默认方法
+- JDK7，推出 Multiple Exception Handing 
+- JDK7，推出 Try with Resource 
+- JDK8 引入了 @Repeatable（重复注解） / @ElementType 两个新注解
