@@ -1,0 +1,4 @@
+(支持多租户，分区方面跟 kafka 一样支持主题的多分区)
+kafka文件存储，pulsar采用Apache BookKeeper存储。这也是pulsar的一个显著优点，kafka文件存储分布在集群的各个broker上，一旦broker挂掉或者新的broker加入就会进行副本的leader选举或者分区平衡操作，这样做会消耗kafka的性能。而pulsar的broker是无状态的，数据存储在BookKeeper中，服务和数据是分离的。所以它并不会面临这种问题，可以随意进行集群的调整。此外kafka的broker还要关心存储量是否超出了自己硬盘的空间。而pulsar不存在这个问题。
+Apache BookKeeper是一个可扩展、可容错以及低延迟的专为实时场景优化的日志存储服务。BookKeeper最初由Yahoo!研究院开发，然后作为Apache ZooKeeper的子项目在2011年开始孵化，最终于2015年01月毕业成为Apache顶级项目。
+同时 Pulsar 支持 SQL 进行查询和分析，Pulsar SQL 借助的是 Presto(一个开源的分布式SQL查询引擎，适用于交互式分析查询)

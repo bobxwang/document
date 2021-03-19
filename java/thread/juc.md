@@ -121,10 +121,10 @@
 
 ![](./thread-state.png)
 
-- New 这个状态主要是线程未被Thread.start()调用前的状态
-- Runnable，线程正在 JVM 中运行
-- Blocked，被阻塞等待一个 monitor 锁
-- Waiting，由于调用了 Object.wait(0)/Thread.join(0)/LockSupport.park 的线程状态 
-- Timed_Waiting，调用了 Object.wait(long)/Thread.join(long)/LockSupport.parkNanos/LockSupport.parkUntil 的线程状态 
+- New 这个状态主要是线程未被Thread.start()调用前的状态，此时线程与普通的 java 对象没有什么区别，仅仅是堆内存中的一个对象 
+- Runnable，线程具备所有运行条件在队列中准备OS的调度或者正在 JVM 中运行。这个状态的线程不能停留太久，如果运行时间很长(存在性能问题)或者一直在队列得不到运行(存在线程饥饿问题)
+- Blocked，被阻塞等待一个 monitor 锁，即线程正在等待进入方法临界区
+- Waiting，由于调用了 Object.wait(0)/Thread.join(0)/LockSupport.park 的线程状态，正在等待某个事件发生(notify/notifyAll)，只有特定条件满足才能执行
+- Timed_Waiting，调用了 Object.wait(long)/Thread.join(long)/LockSupport.parkNanos/LockSupport.parkUntil 的线程状态，当等待时间过去后会自动恢复运行 
 - Terminated，线程终止 
 

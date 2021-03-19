@@ -29,7 +29,18 @@ public interface Condition {
 
 #### AbstractQueuedSynchronizer 
 
+> 一个用来构建锁和同步器的框架
+
+###### 两个内部类
+
+``` java
+static final class Node {}
+public class ConditionObject implements Condition {}
+```
+
 ###### 锁异性部分
+
+- isHeldExclusively 该线程是否正在独占资源，只有用到 condition 才需要去实现它
 
 * tryAcquire  向AQS解释怎么获取一把独占锁
 * tryRelease  向AQS解释怎么释放一把独占锁

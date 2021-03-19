@@ -5,3 +5,4 @@
 - JDK7，推出 Multiple Exception Handing 
 - JDK7，推出 Try with Resource 
 - JDK8 引入了 @Repeatable（重复注解） / @ElementType 两个新注解
+- JDK8中将永久代进行了移除，使用 MetaSpace 来保存类加载后的信息，字符串常量池也被移动到了 Java 堆，可使用 `-XX:MaxMetaspaceSize=10M` 来限制最大元数据，这样当不停的创建类时将会占满该区域并出现 `OOM`。
