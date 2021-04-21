@@ -66,7 +66,6 @@ shards/replicas 分片/副本
 
   > 不分词，属精确查询，查 keyword 类型时，需完全匹配，查 text 类型时，因为 text 被分词了，如果想查到结果，那么 term 的查询条件必须是 text 字段分词后的某一个  
 
-
 默认端口是9200，修改http.port来绑定HTTP协议的9200，内部通信9300，修改transport.tcp.port。如果不需要http端口干脆禁用
 http://127.0.0.1:9200/_cat/nodes?v
 http://127.0.0.1:9200/_cat/health?v　

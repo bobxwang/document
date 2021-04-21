@@ -45,7 +45,7 @@
 
 ##### Znode
 
-> 每个znode创建时都会带有一个ACL列表,用于决定谁可以对它执行何种操作
+> 每个znode创建时都会带有一个ACL列表,用于决定谁可以对它执行何种操作，节点存放数据上限
 
 * PERSISTENT
 * PERSISTENT_SEQUENTIAL
